@@ -21,6 +21,7 @@ parser.add_argument('--o',
 parser.add_argument('--verbose', help="0: Disable Verbose, 1: Enable Verbose (Make all output logs visible)")
 parser.add_argument('--log', help="0: Disable Logging, 1: Enable Logging")
 parser.add_argument('--destination', help="0: Disable Logging, 1: Enable Logging")
+parser.add_argument('--port', help="0: Disable Logging, 1: Enable Logging")
 args = parser.parse_args()
 
 input_port = 14550
@@ -28,6 +29,7 @@ output_port = 1220
 is_verbose = False
 is_log_enabled = False
 destination_ip = "127.0.0.1"
+destination_port = 53
 
 
 class UdpProxy:
@@ -55,7 +57,7 @@ class UdpProxy:
             if addr == self.pair_list[i][1]:
                 return self.pair_list[i][0]
         new_port = len(self.pair_list) + self.output_port
-        destination_addr = (destination_ip, new_port)
+        destination_addr = (destination_ip, destination_port)
         self.my_print(["new pair"], [addr, destination_addr])
         self.pair_list.append([addr, destination_addr])
         return destination_addr
@@ -98,6 +100,8 @@ if __name__ == "__main__":
         output_port = int(args.o)
     if args.destination is not None:
         destination_ip = str(args.destination)    
+    if args.port is not None:
+        destination_port = int(args.port)        
     is_log_enabled = True
     sock = UdpProxy(in_port=input_port, out_port=output_port, buf_size=1024)
 
