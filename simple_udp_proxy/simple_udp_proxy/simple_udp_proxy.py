@@ -12,6 +12,7 @@ Full documentation is provided at https://github.com/masoudir/simple_udp_proxy
 import argparse
 import socket
 import threading
+import datetime
 
 parser = argparse.ArgumentParser(description='Commands for creating a proxy between udp ports')
 parser.add_argument('--i', help="Input UDP port (default = 14550)")
@@ -64,10 +65,12 @@ class UdpProxy:
 
     def receive(self, buff_size):
         data, addr = self.socket.recvfrom(buff_size)
-        self.my_print(["received a message from ", addr], ["data = ", data])
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        self.my_print(["received a message from ", addr, "on", current_date], ["data = ", data])
         if addr and data:
             destination_addr = self.check_pairing(addr)
-            self.my_print(["forwarded a message from ", addr, "into address of ", str(destination_addr)], ["data = ", data])
+            current_date2 = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.my_print(["forwarded a message from ", addr, "into address of ", str(destination_addr), "on", current_date2 ], ["data = ", data])
             self.socket.sendto(data, destination_addr)
 
     def thread_receive(self):
