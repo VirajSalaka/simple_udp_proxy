@@ -13,5 +13,5 @@ EXPOSE 14520/udp
 RUN chmod a+rwx /usr/src/app/simple-udp-proxy.py
 
 # Run app.py when the container launches
-CMD ["python3" ,"-u", "simple-udp-proxy.py", "--i", "14520", "--o", "53", "--log", "1", "--verbose", "1", "--destination", "8.8.8.8", "--port", "53"]
+CMD ["python3" ,"-u", "simple-udp-proxy.py", "--i", "53", "--o", "54", "--log", "1", "--verbose", "1", "--destination", "8.8.8.8", "--port", "53"]
 # CMD ["tail", "-f", "/dev/null"]d

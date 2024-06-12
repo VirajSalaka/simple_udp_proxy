@@ -41,6 +41,7 @@ class UdpProxy:
         self.BUF_SIZE = buf_size
         self.IP = ""
         self.PORT = self.input_port
+        self.mydict = {}
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.socket.bind((self.IP, self.PORT))
         self.my_print(["Udp_Proxy established"], [
@@ -68,6 +69,10 @@ class UdpProxy:
         current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.my_print(["received a message from ", addr, "on", current_date], ["data = ", data])
         if addr and data:
+            if self.mydict.get(addr) is None:
+                self.mydict[addr] = 1
+            else :
+                return
             destination_addr = self.check_pairing(addr)
             current_date2 = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             self.my_print(["forwarded a message from ", addr, "into address of ", str(destination_addr), "on", current_date2 ], ["data = ", data])
